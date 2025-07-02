@@ -22,7 +22,6 @@ function TodoList() {
     }
   };
 
-  // PATCH - Cambiar estado completado
   const toggleComplete = async (id, completed) => {
     try {
       const response = await fetch(`http://localhost:3001/todos/${id}`, {
@@ -36,7 +35,6 @@ function TodoList() {
       });
 
       if (response.ok) {
-        // Actualizar estado local
         setTodos(todos.map(todo =>
           todo.id === id
             ? { ...todo, completed: !completed }
@@ -45,6 +43,26 @@ function TodoList() {
       }
     } catch (error) {
       alert('Error al actualizar');
+    }
+  };
+
+  // DELETE - Eliminar todo
+  const deleteTodo = async (id) => {
+    if (!window.confirm('¿Eliminar este todo?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3001/todos/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        // Remover del estado local
+        setTodos(todos.filter(todo => todo.id !== id));
+      }
+    } catch (error) {
+      alert('Error al eliminar');
     }
   };
 
@@ -75,6 +93,10 @@ function TodoList() {
               }}>
                 {todo.title}
               </span>
+
+              <button onClick={() => deleteTodo(todo.id)}>
+                Eliminar
+              </button>
             </li>
           ))}
         </ul>
