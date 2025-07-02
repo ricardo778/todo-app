@@ -63,6 +63,12 @@ function TodoList() {
   return (
     <div>
       <h2>Mis Todos</h2>
+      <div style={{ marginBottom: '15px' }}>
+        <button>Todos</button>
+        <button>Completados</button>
+        <button>Pendientes</button>
+      </div>
+
       <Link to="/add">+ Agregar Nuevo Todo</Link>
 
       {todos.length === 0 ? (
