@@ -1,39 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function TodoList() {
-  const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(true);
+function AddTodo() {
+  // Estado del formulario
+  const [title, setTitle] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  // Cargar todos al montar el componente
-  useEffect(() => {
-    loadTodos();
-  }, []);
+  // Manejar envío del formulario
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  // GET - Obtener todos los todos
-  const loadTodos = async () => {
+    // Validación básica
+    if (!title.trim()) {
+      alert('Por favor escribe un título');
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      setLoading(true);
-      const response = await fetch('http://localhost:3001/todos');
-      const data = await response.json();
-      setTodos(data);
+      // Llamada a la API
+      const response = await fetch('http://localhost:3001/todos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: title.trim(),
+          completed: false
+        }),
+      });
+
+      if (response.ok) {
+        // Redirigir a la lista
+        navigate('/todos');
+      } else {
+        alert('Error al crear el todo');
+      }
     } catch (error) {
-      alert('Error al cargar los todos');
+      alert('Error de conexión');
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) {
-    return <div>Cargando...</div>;
-  }
-
   return (
     <div>
-      <h2>Mis Todos</h2>
-      <Link to="/add">+ Agregar Nuevo Todo</Link>
+      <h2>Agregar Nuevo Todo</h2>
+
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Título:</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Escribe tu tarea..."
+            disabled={loading}
+          />
+        </div>
+
+        <div>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Guardando...' : 'Agregar Todo'}
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate('/todos')}
+            disabled={loading}
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
 
-export default TodoList;
+export default AddTodo;
