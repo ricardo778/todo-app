@@ -5,12 +5,10 @@ function TodoList() {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Cargar todos al montar el componente
   useEffect(() => {
     loadTodos();
   }, []);
 
-  // GET - Obtener todos los todos
   const loadTodos = async () => {
     try {
       setLoading(true);
@@ -50,26 +48,6 @@ function TodoList() {
     }
   };
 
-  // DELETE - Eliminar todo
-  const deleteTodo = async (id) => {
-    if (!window.confirm('¿Eliminar este todo?')) {
-      return;
-    }
-
-    try {
-      const response = await fetch(`http://localhost:3001/todos/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        // Remover del estado local
-        setTodos(todos.filter(todo => todo.id !== id));
-      }
-    } catch (error) {
-      alert('Error al eliminar');
-    }
-  };
-
   if (loading) {
     return <div>Cargando...</div>;
   }
@@ -97,10 +75,6 @@ function TodoList() {
               }}>
                 {todo.title}
               </span>
-
-              <button onClick={() => deleteTodo(todo.id)}>
-                Eliminar
-              </button>
             </li>
           ))}
         </ul>
@@ -110,4 +84,3 @@ function TodoList() {
 }
 
 export default TodoList;
-
