@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function TodoList() {
   const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(true); // ✅ estado de carga
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadTodos();
@@ -11,14 +11,14 @@ function TodoList() {
 
   const loadTodos = async () => {
     try {
-      setLoading(true); // ⏳ comienza carga
+      setLoading(true);
       const response = await fetch('http://localhost:3001/todos');
       const data = await response.json();
       setTodos(data);
     } catch (error) {
       alert('Error al cargar los todos');
     } finally {
-      setLoading(false); // ✅ termina carga
+      setLoading(false);
     }
   };
 
@@ -26,9 +26,7 @@ function TodoList() {
     try {
       const response = await fetch(`http://localhost:3001/todos/${id}`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ completed: !completed }),
       });
 
@@ -58,7 +56,6 @@ function TodoList() {
     }
   };
 
-  // ✅ Mostrar mensaje de carga
   if (loading) {
     return <div>Cargando...</div>;
   }
@@ -92,4 +89,3 @@ function TodoList() {
 }
 
 export default TodoList;
-

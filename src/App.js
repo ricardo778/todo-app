@@ -9,14 +9,12 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* Navegación simple */}
         <nav>
           <Link to="/">Inicio</Link>
           <Link to="/todos">Mis Todos</Link>
           <Link to="/add">Agregar Todo</Link>
         </nav>
 
-        {/* Rutas */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/todos" element={<TodoList />} />

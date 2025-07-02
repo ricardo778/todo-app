@@ -51,7 +51,7 @@ function AddTodo() {
         </div>
         <div>
           <button type="submit" disabled={loading}>
-            {loading ? 'Guardando...' : 'Agregar Todo'} {}
+            {loading ? 'Guardando...' : 'Agregar Todo'}
           </button>
           <button type="button" onClick={() => navigate('/todos')} disabled={loading}>
             Cancelar
