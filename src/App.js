@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './components/Home';
 import TodoList from './components/TodoList';
 import AddTodo from './components/AddTodo';
+import EditTodo from './components/EditTodo';
 import './App.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/todos" element={<TodoList />} />
           <Route path="/add" element={<AddTodo />} />
+          <Route path="/edit/:id" element={<EditTodo />} /> {/* ✅ Ruta de edición */}
         </Routes>
       </div>
     </Router>
